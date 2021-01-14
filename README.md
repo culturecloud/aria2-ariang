@@ -1,14 +1,8 @@
-# Aria2
+# 轻量易用的 Aria2 下载机
 
-本项目是 [aria2-with-webui](https://github.com/XUJINKAI/aria2-with-webui) 的分支，感谢作者 [XUJINKAI](https://github.com/XUJINKAI) 。
+此镜像采用 Linuxserver 维护的 alpine 基础镜像构建，使用 [AriaNg](https://github.com/mayswind/AriaNg) 作为 Aria2 的前端管理界面，集成超级轻量的 lighthttpd 网页服务器提供文件索引页面。
 
-
-此镜像已改用 [AriaNg](https://github.com/mayswind/AriaNg) 作为 Aria2 的前端管理界面。
-
-### 注意
-
-此容器实验性的添加了一个初始的 `dht.dat` 文件，并且在 `aria.conf` 中对 BT 下载做了一定的配置优化，
-如果您遇到任何问题欢迎提交 [Issues](https://github.com/getnas/aria2/issues) 。
+预置了 dht.dat 和 dht6.dat 数据包，分别对应 IPv4 和 IPv6 环境的 DHT 网络连接优化。默认未启用 IPv6 支持，如有需要可以手动修改配置文件。
 
 ### 创建容器
 
@@ -21,16 +15,18 @@ sudo docker run -d \
 -p 6800:6800 \
 -p 6880:80 \
 -p 6888:8080 \
+-p 51443:51443 \
+-p 51443:51443/udp \
 -v /DOWNLOAD_DIR:/data \
 -v /CONFIG_DIR:/config \
 -e SECRET=YOUR_SECRET_CODE \
 getnas/aria2
 ```
 
-> 注意：如果不需要浏览下载目录，则去掉 `-p 6888:8080` 参数。
-> 提示：如果希望 aria2 容器随 docker 自动运行，则添加 `--restart=always` 参数。
-> 提示：请用随意的一组字符串替换 `YOUR_SECRET_CODE`，在浏览器中管理 aria2 时需要用这个
-> 安全代码认证身份，以防他人恶意使用。
+- 如果不需要浏览下载目录，则去掉 `-p 6888:8080` 参数。
+- 如果希望 aria2 容器随 docker 自动运行，则添加 `--restart=always` 参数。
+- 请用随意的一组字符串替换 `YOUR_SECRET_CODE`，在浏览器中管理 aria2 时需要用这个安全代码认证身份，以防他人恶意使用。
+- 51443 端口的 TCP 和 UDP 分别监听 BT 和 Tracker 连接。
 
 ### 指定用户和组
 
@@ -46,3 +42,10 @@ getnas/aria2
 
 * [Aria2](https://github.com/aria2/aria2)
 * [AriaNg](https://github.com/mayswind/AriaNg)
+
+
+### 特别鸣谢
+
+本项目是在 [aria2-with-webui](https://github.com/XUJINKAI/aria2-with-webui) 的基础上构建而来的，感谢作者 [XUJINKAI](https://github.com/XUJINKAI)。
+
+本项目中的 aria2 配置文件参考了 [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf) 项目，感谢作者 [@P3TERX](https://github.com/P3TERX)。
