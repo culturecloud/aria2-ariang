@@ -1,8 +1,8 @@
-FROM lsiobase/alpine:3.8
+FROM ghcr.io/linuxserver/baseimage-alpine:3.12
 
 LABEL maintainer="Herald Yu <yuhr123@gmail.com>"
 
-RUN apk add --no-cache --upgrade \
+RUN apk add --no-cache \
 	ca-certificates \
 	bash \
 	wget \
@@ -25,14 +25,12 @@ ADD files/start.sh /config-copy/start.sh
 ADD files/aria2.conf /config-copy/aria2.conf
 ADD files/on-complete.sh /config-copy/on-complete.sh
 ADD files/dht.dat /config-copy/dht.dat
+ADD files/dht6.dat /config-copy/dht6.dat
 
 RUN chmod +x /config-copy/start.sh
 
 WORKDIR /
-VOLUME ["/data"]
-VOLUME ["/config"]
-EXPOSE 6800
-EXPOSE 80
-EXPOSE 8080
+VOLUME /data /config
+EXPOSE 6800 80 8080
 
 CMD ["/config-copy/start.sh"]

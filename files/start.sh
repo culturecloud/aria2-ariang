@@ -12,6 +12,9 @@ fi
 if [ ! -f /config/dht.dat ]; then
         cp /config-copy/dht.dat /config/dht.dat
 fi
+if [ ! -f /config/dht6.dat ]; then
+        cp /config-copy/dht6.dat /config/dht6.dat
+fi
 if [ ! -f /config/aria2.session ]; then
 	touch /config/aria2.session
 fi
