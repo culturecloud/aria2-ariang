@@ -31,6 +31,6 @@ RUN chmod +x /config-copy/start.sh
 
 WORKDIR /
 VOLUME /data /config
-EXPOSE 6800 80 8080
+EXPOSE 6800:6800 6880:80 6888:8080
 
 CMD ["/config-copy/start.sh"]
